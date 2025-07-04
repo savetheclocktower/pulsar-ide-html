@@ -1,0 +1,380 @@
+{
+  "name": "pulsar-ide-html",
+  "main": "./lib/main",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "keywords": [],
+  "activationCommands": {
+    "atom-workspace": "pulsar-ide-html:toggle"
+  },
+  "activationHooks": [
+    "text.html.basic:root-scope-used",
+    "text.html.php:root-scope-used",
+    "text.html.handlebars:root-scope-used",
+    "text.html.liquid:root-scope-used",
+    "text.html.erb:root-scope-used",
+    "text.html.ejs:root-scope-used"
+  ],
+  "enhancedScopes": [
+    "text.html.basic",
+    "text.html.php",
+    "text.html.handlebars",
+    "text.html.liquid",
+    "text.html.erb",
+    "text.html.ejs"
+  ],
+  "repository": "https://github.com/savetheclocktower/pulsar-ide-html",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "@savetheclocktower/atom-languageclient": "^1.17.11",
+    "just-extend": "^6.2.0",
+    "just-safe-get": "^4.2.0",
+    "just-safe-set": "^4.2.1",
+    "vscode-langservers-extracted": "^4.10.0",
+    "which": "^2.0.2"
+  },
+  "configSchema": {
+    "scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Language Scopes",
+      "default": [
+        "text.html.basic",
+        "text.html.php",
+        "text.html.handlebars",
+        "text.html.liquid",
+        "text.html.erb",
+        "text.html.ejs"
+      ],
+      "description": "A list, comma-separated, of root scope IDs for which this language server’s results are relevant. You may want to add to this list if you use other HTML templating languages than the ones listed."
+    },
+    "serverSettings": {
+      "type": "object",
+      "collapsed": "false",
+      "title": "Server Settings",
+      "description": "Change the behavior of the language server itself.",
+      "order": 2,
+      "properties": {
+        "customData": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Custom Data Load Paths",
+          "default": [],
+          "description": "A list of relative file paths pointing to JSON files following the [custom data format](https://github.com/microsoft/vscode-html-languageservice/blob/master/docs/customData.md). Enhances HTML support for the custom HTML tags, attributes and attribute values you specify in the JSON files.\n\nThe file paths are relative to the project root and can only reference files within the project.",
+          "order": 0
+        },
+        "hover": {
+          "type": "object",
+          "title": "Hover",
+          "properties": {
+            "documentation": {
+              "type": "boolean",
+              "default": true,
+              "title": "Show Documentation",
+              "description": "Show tag and attribute documentation in hover tooltip."
+            },
+            "references": {
+              "type": "boolean",
+              "default": true,
+              "title": "Show References",
+              "description": "Show references to MDN in hover."
+            }
+          }
+        },
+        "format": {
+          "type": "object",
+          "title": "Formatting",
+          "properties": {
+            "enable": {
+              "type": "boolean",
+              "title": "Enable",
+              "description": "Whether to enable code formatting. When disabled, even explicit requests to format code will be ignored.",
+              "default": true,
+              "order": 0
+            },
+            "indentInnerHtml": {
+              "type": "boolean",
+              "default": false,
+              "title": "Indent Children of HTML Tag",
+              "description": "Whether to indent `head` and `body`.",
+              "order": 1
+            },
+            "indentHandlebars": {
+              "type": "boolean",
+              "default": false,
+              "title": "Indent Handlebars",
+              "description": "Format and indent `{{#foo}}` and `{{/foo}}`.",
+              "order": 2
+            },
+            "preserveNewLines": {
+              "type": "boolean",
+              "default": true,
+              "title": "Preserve Line Breaks",
+              "description": "Whether existing line breaks before elements should be preserved. Only works before elements, not inside tags or for text.",
+              "order": 3
+            },
+            "wrapLineLength": {
+              "title": "Wrap Line Length",
+              "type": "number",
+              "default": 120,
+              "description": "Maximum number of characters per line. Specify `0` to disable hard line wrapping.",
+              "order": 4
+            },
+            "unformatted": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "title": "Unformatted Tags",
+              "description": "List of tags, comma-separated, that should not be reformatted. An empty list defaults to all tags specified in the [phrasing content](https://www.w3.org/TR/html5/dom.html#phrasing-content) definition of the HTML5 specification.",
+              "default": [
+                "wbr"
+              ],
+              "order": 5
+            },
+            "contentUnformatted": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "title": "Unformatted Tag Content",
+              "default": [],
+              "description": "List of tags, comma-separated, whose content shouldn't be reformatted. An empty list defaults to the `pre` tag.",
+              "order": 6
+            },
+            "maxPreserveNewLines": {
+              "type": "number",
+              "default": -1,
+              "title": "Maximum Line Breaks To Preserve",
+              "description": "Maximum number of line breaks to be preserved in one chunk. Use `-1` for unlimited.",
+              "order": 7
+            },
+            "extraLiners": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "head",
+                "body",
+                "/html"
+              ],
+              "title": "Tags With Preceding Line Breaks",
+              "description": "List of tags, comma-separated, that should have an extra newline before them. (Opening and closing tags are specified separately; use an initial `/` to signify a closing tag.)",
+              "order": 8
+            },
+            "wrapAttributes": {
+              "type": "string",
+              "title": "Attribute Wrap Behavior",
+              "default": "auto",
+              "description": "When should a list of HTML attributes wrap to multiple lines?",
+              "enum": [
+                {
+                  "value": "auto",
+                  "description": "Wrap only when line length is exceeded"
+                },
+                {
+                  "value": "force",
+                  "description": "Wrap each attribute except the first"
+                },
+                {
+                  "value": "force-aligned",
+                  "description": "Wrap each attribute except the first and keep them aligned"
+                },
+                {
+                  "value": "force-expand-multiline",
+                  "description": "Wrap each attribute"
+                },
+                {
+                  "value": "aligned-multiple",
+                  "description": "Wrap when line length is exceeded and align attributes vertically"
+                },
+                {
+                  "value": "preserve",
+                  "description": "Preserve wrapping of attributes"
+                },
+                {
+                  "value": "preserve-aligned",
+                  "description": "Preserve wrapping of attributes, but align them"
+                }
+              ],
+              "order": 9
+            },
+            "wrapAttributesIndentSize": {
+              "type": "number",
+              "default": -1,
+              "title": "Wrap Attributes Indent Size",
+              "description": "Size of hanging indent to use on attributes when wrapping. Use `-1` to use the default indent size. Ignored if **Attribute Wrap Behavior** involves alignment."
+            },
+            "templating": {
+              "type": "boolean",
+              "default": true,
+              "title": "Format Templating Tags",
+              "description": "Honor templating tags for Django, ERB, Handlebars, and PHP."
+            },
+            "unformattedContentDelimiter": {
+              "type": "string",
+              "default": "",
+              "title": "Unformatted Content Delimiter",
+              "description": "If specified, a line break will never be emitted during reformatting on either side of this string."
+            }
+          }
+        },
+        "completion": {
+          "type": "object",
+          "title": "Completion",
+          "properties": {
+            "enable": {
+              "type": "boolean",
+              "default": true,
+              "title": "Enable",
+              "description": "Whether to enable completion suggestions for HTML.",
+              "order": 0
+            },
+            "suggestHtml5": {
+              "type": "boolean",
+              "default": true,
+              "title": "Suggest HTML5 Features",
+              "description": "Controls whether the built-in HTML language support suggests HTML5 tags, properties and values.",
+              "order": 1
+            },
+            "attributeDefaultValue": {
+              "type": "string",
+              "title": "Quotation Mark Style",
+              "description": "Which style of quotation marks to use when completion is accepted.",
+              "default": "doublequotes",
+              "enum": [
+                {
+                  "value": "doublequotes",
+                  "description": "Double-quoted"
+                },
+                {
+                  "value": "singlequotes",
+                  "description": "Single-quoted"
+                },
+                {
+                  "value": "empty",
+                  "description": "No quotation marks"
+                }
+              ],
+              "order": 2
+            }
+          }
+        },
+        "validate": {
+          "type": "object",
+          "title": "Validation and Linting",
+          "properties": {
+            "enable": {
+              "type": "boolean",
+              "default": true,
+              "order": 0,
+              "title": "Enable",
+              "description": "Whether to perform validation."
+            },
+            "scripts": {
+              "title": "Validate Scripts",
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to validate embedded scripts."
+            },
+            "styles": {
+              "title": "Validate Styles",
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to validate embedded styles."
+            }
+          }
+        }
+      }
+    }
+  },
+  "consumedServices": {
+    "linter-indie": {
+      "versions": {
+        "2.0.0": "consumeLinterV2"
+      }
+    },
+    "atom-ide-busy-signal": {
+      "versions": {
+        "0.1.0": "consumeBusySignal"
+      }
+    },
+    "datatip": {
+      "versions": {
+        "0.1.0": "consumeDatatip"
+      }
+    },
+    "signature-help": {
+      "versions": {
+        "0.1.0": "consumeSignatureHelp"
+      }
+    }
+  },
+  "providedServices": {
+    "intentions:list": {
+      "versions": {
+        "1.0.0": "provideIntentionsList"
+      }
+    },
+    "symbol.provider": {
+      "description": "Allows external sources to suggest symbols for a given file or project.",
+      "versions": {
+        "1.0.0": "provideSymbols"
+      }
+    },
+    "autocomplete.provider": {
+      "versions": {
+        "4.0.0": "provideAutocomplete"
+      }
+    },
+    "code-actions": {
+      "versions": {
+        "0.1.0": "provideCodeActions"
+      }
+    },
+    "code-format.range": {
+      "versions": {
+        "0.1.0": "provideCodeFormat"
+      }
+    },
+    "call-hierarchy": {
+      "versions": {
+        "0.1.0": "provideCallHierarchy"
+      }
+    },
+    "code-highlight": {
+      "versions": {
+        "0.1.0": "provideCodeHighlight"
+      }
+    },
+    "definitions": {
+      "versions": {
+        "0.1.0": "provideDefinitions"
+      }
+    },
+    "find-references": {
+      "versions": {
+        "0.1.0": "provideFindReferences"
+      }
+    },
+    "outline-view": {
+      "versions": {
+        "0.1.0": "provideOutlines"
+      }
+    },
+    "refactor": {
+      "versions": {
+        "0.1.0": "provideRefactor",
+        "0.2.0": "provideRefactorWithPrepare"
+      }
+    }
+  }
+}
