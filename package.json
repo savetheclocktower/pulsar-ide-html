@@ -1,12 +1,13 @@
 {
   "name": "pulsar-ide-html",
   "main": "./lib/main",
-  "version": "0.0.2",
-  "description": "A short description of your package",
-  "keywords": [],
-  "activationCommands": {
-    "atom-workspace": "pulsar-ide-html:toggle"
-  },
+  "version": "0.0.0",
+  "description": "A Pulsar-native IDE provider package for HTML",
+  "keywords": [
+    "ide",
+    "html",
+    "languageserver"
+  ],
   "activationHooks": [
     "text.html.basic:root-scope-used",
     "text.html.php:root-scope-used",
@@ -59,7 +60,8 @@
       "type": "string",
       "default": "node",
       "order": 1,
-      "description": "A string that can be resolved by a shell as pointing to a `node` binary. The default of `node` will usually work; you may hard-code an absolute path otherwise. (Reload the window after changing this value.)"
+      "description": "A string that can be resolved by a shell as pointing to a `node` binary. The default of `node` will usually work; you may hard-code an absolute path otherwise. (Reload the window after changing this value.)",
+      "order": 1
     },
     "serverSettings": {
       "type": "object",
