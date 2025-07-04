@@ -60,7 +60,8 @@
       "type": "string",
       "default": "node",
       "order": 1,
-      "description": "A string that can be resolved by a shell as pointing to a `node` binary. The default of `node` will usually work; you may hard-code an absolute path otherwise. (Reload the window after changing this value.)"
+      "description": "A string that can be resolved by a shell as pointing to a `node` binary. The default of `node` will usually work; you may hard-code an absolute path otherwise. (Reload the window after changing this value.)",
+      "order": 1
     },
     "serverSettings": {
       "type": "object",
