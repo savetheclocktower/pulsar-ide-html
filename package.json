@@ -1,7 +1,7 @@
 {
   "name": "pulsar-ide-html",
   "main": "./lib/main",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "A short description of your package",
   "keywords": [],
   "activationCommands": {
@@ -51,7 +51,16 @@
         "text.html.erb",
         "text.html.ejs"
       ],
-      "description": "A list, comma-separated, of root scope IDs for which this language server’s results are relevant. You may want to add to this list if you use other HTML templating languages than the ones listed."
+      "description": "A list, comma-separated, of root scope IDs for which this language server’s results are relevant. You may want to add to this list if you use other HTML templating languages than the ones listed.",
+      "order": 0
+    },
+    "nodeBin": {
+      "title": "Path To Node Binary",
+      "type": "string",
+      "default": "node",
+      "order": 1,
+      "description": "A string that can be resolved by a shell as pointing to a `node` binary. The default of `node` will usually work; you may hard-code an absolute path otherwise. (Reload the window after changing this value.)",
+      "order": 1
     },
     "serverSettings": {
       "type": "object",
