@@ -27,7 +27,7 @@
   "repository": "https://github.com/savetheclocktower/pulsar-ide-html",
   "license": "MIT",
   "engines": {
-    "atom": ">=1.0.0 <2.0.0"
+    "atom": ">=1.131.0 <2.0.0"
   },
   "dependencies": {
     "@savetheclocktower/atom-languageclient": "^1.17.11",
@@ -54,14 +54,6 @@
       ],
       "description": "A list, comma-separated, of root scope IDs for which this language server’s results are relevant. You may want to add to this list if you use other HTML templating languages than the ones listed.",
       "order": 0
-    },
-    "nodeBin": {
-      "title": "Path To Node Binary",
-      "type": "string",
-      "default": "node",
-      "order": 1,
-      "description": "A string that can be resolved by a shell as pointing to a `node` binary. The default of `node` will usually work; you may hard-code an absolute path otherwise. (Reload the window after changing this value.)",
-      "order": 1
     },
     "serverSettings": {
       "type": "object",
