@@ -31,10 +31,10 @@
   },
   "dependencies": {
     "@savetheclocktower/atom-languageclient": "^1.17.11",
+    "@t1ckbase/vscode-langservers-extracted": "^0.1.15",
     "just-extend": "^6.2.0",
     "just-safe-get": "^4.2.0",
     "just-safe-set": "^4.2.1",
-    "vscode-langservers-extracted": "^4.10.0",
     "which": "^2.0.2"
   },
   "configSchema": {
